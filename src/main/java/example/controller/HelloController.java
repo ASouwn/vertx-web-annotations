@@ -1,11 +1,11 @@
 package example.controller;
 
-import com.asouwn.vertxAnno.Serve.GetMapping;
-import com.asouwn.vertxAnno.Serve.RequestMapping;
-import com.asouwn.vertxAnno.Serve.RestController;
+import com.asouwn.vertxAnno.serveAnnotation.GetMapping;
+import com.asouwn.vertxAnno.serveAnnotation.RequestMapping;
+import com.asouwn.vertxAnno.serveAnnotation.RestController;
 
 @RestController
-@RequestMapping("test")
+//@RequestMapping("test")
 public class HelloController {
     @GetMapping("hello")
     public String helloServe() {

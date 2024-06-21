@@ -1,8 +1,10 @@
 package com.asouwn.vertxAnno;
 
-import com.asouwn.vertxAnno.Serve.GetMapping;
-import com.asouwn.vertxAnno.Serve.PostMapping;
-import com.asouwn.vertxAnno.Serve.RestController;
+import com.asouwn.vertxAnno.POJO.WebVertical;
+import com.asouwn.vertxAnno.serveAnnotation.GetMapping;
+import com.asouwn.vertxAnno.serveAnnotation.PostMapping;
+import com.asouwn.vertxAnno.serveAnnotation.RestController;
+import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpServer;
@@ -93,20 +95,9 @@ public class AnnotationHandler {
 
     private static void createHttpServe(List<Class<?>> classes) {
         Vertx vertx = Vertx.vertx();
-        HttpServer server = vertx.createHttpServer();
-        Router router = Router.router(vertx);
-
-        for (Class<?> c : classes) {
-            createSingleServe(c, router);
+        for (int i = 0; i < 4; i++) {
+            vertx.deployVerticle(webVertical(classes));
         }
-
-        server.requestHandler(router).listen(port, asyncResult -> {
-            if (asyncResult.succeeded()) {
-                System.out.println("start serve on port " + port);
-            } else {
-                System.out.println("start serve error, something got wrong");
-            }
-        });
     }
 
     /**
@@ -114,23 +105,9 @@ public class AnnotationHandler {
      *
      * @param c
      */
-    private static void createSingleServe(Class<?> c, Router router) {
-        for (Method method : c.getDeclaredMethods()) {
-            if (method.isAnnotationPresent(GetMapping.class)) {
-                GetMapping get = method.getAnnotation(GetMapping.class);
-                router.get("/" + get.value()).respond(ctx -> {
-                    try {
-                        return Future.succeededFuture(method.invoke(c.getDeclaredConstructor().newInstance()));
-                    } catch (InvocationTargetException | InstantiationException | NoSuchMethodException |
-                             IllegalAccessException e) {
-                        throw new RuntimeException(e);
-                    }
-                });
-            } else if (method.isAnnotationPresent(PostMapping.class)) {
-//                PostMapping post = method.getAnnotation(PostMapping.class);
-//                router.post(post.value()).respond(ctx -> Future.succeededFuture(new Pojo()));
-            }
-        }
+
+    private static WebVertical webVertical(List<Class<?>> c){
+        return new WebVertical(c);
     }
 
 }
