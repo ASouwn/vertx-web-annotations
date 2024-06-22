@@ -2,10 +2,13 @@ package com.asouwn.vertxAnno.POJO;
 
 import com.asouwn.vertxAnno.serveAnnotation.GetMapping;
 import com.asouwn.vertxAnno.serveAnnotation.PostMapping;
+import com.asouwn.vertxAnno.serveAnnotation.param.RequestBody;
+import example.param.HelloRequest;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
 import io.vertx.core.http.HttpServer;
 import io.vertx.ext.web.Router;
+import io.vertx.ext.web.handler.BodyHandler;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -27,6 +30,7 @@ public class WebVertical extends AbstractVerticle {
     public void start() throws Exception {
         Router router = Router.router(vertx);
         HttpServer server = vertx.createHttpServer();
+        router.route().handler(BodyHandler.create());
         initInstanceMap(classes);
         for (Class<?> c : classes) {
             createSingleServe(c, router);
@@ -58,8 +62,15 @@ public class WebVertical extends AbstractVerticle {
                     }
                 });
             } else if (method.isAnnotationPresent(PostMapping.class)) {
-//                PostMapping post = method.getAnnotation(PostMapping.class);
-//                router.post(post.value()).respond(ctx -> Future.succeededFuture(new Pojo()));
+                PostMapping post = method.getAnnotation(PostMapping.class);
+                router.post("/" + post.value()).respond(ctx -> {
+                    Object[] params = {ctx.body().asJsonObject().mapTo(HelloRequest.class)};
+                    try {
+                        return Future.succeededFuture(method.invoke(instanceMap.get(c.getName()), params));
+                    } catch (IllegalAccessException | InvocationTargetException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
             }
         }
     }
