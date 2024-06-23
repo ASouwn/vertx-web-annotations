@@ -1,8 +1,5 @@
 package example.param;
 
-
-import java.io.Serializable;
-
 public class HelloResponse {
     private String hello;
 

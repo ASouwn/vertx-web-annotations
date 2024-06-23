@@ -1,6 +1,5 @@
 package example.param;
 
-import java.io.Serializable;
 
 public class HelloRequest {
     private String name;

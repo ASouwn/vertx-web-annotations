@@ -1,19 +1,11 @@
 package com.asouwn.vertxAnno;
 
 import com.asouwn.vertxAnno.POJO.WebVertical;
-import com.asouwn.vertxAnno.serveAnnotation.GetMapping;
-import com.asouwn.vertxAnno.serveAnnotation.PostMapping;
 import com.asouwn.vertxAnno.serveAnnotation.RestController;
-import io.vertx.core.AbstractVerticle;
-import io.vertx.core.Future;
 import io.vertx.core.Vertx;
-import io.vertx.core.http.HttpServer;
-import io.vertx.ext.web.Router;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.*;
 
@@ -26,7 +18,7 @@ public class AnnotationHandler {
     /**
      * serve start port
      */
-    private static int port = 8080;
+    private static final int port = 8080;
 
     /**
      * the start state

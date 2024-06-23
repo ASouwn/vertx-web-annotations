@@ -2,8 +2,6 @@ package com.asouwn.vertxAnno.POJO;
 
 import com.asouwn.vertxAnno.serveAnnotation.GetMapping;
 import com.asouwn.vertxAnno.serveAnnotation.PostMapping;
-import com.asouwn.vertxAnno.serveAnnotation.param.RequestBody;
-import example.param.HelloRequest;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
 import io.vertx.core.http.HttpServer;
@@ -64,7 +62,7 @@ public class WebVertical extends AbstractVerticle {
             } else if (method.isAnnotationPresent(PostMapping.class)) {
                 PostMapping post = method.getAnnotation(PostMapping.class);
                 router.post("/" + post.value()).respond(ctx -> {
-                    Object[] params = {ctx.body().asJsonObject().mapTo(HelloRequest.class)};
+                    Object[] params = {ctx.body().asJsonObject().mapTo(method.getParameterTypes()[0])};
                     try {
                         return Future.succeededFuture(method.invoke(instanceMap.get(c.getName()), params));
                     } catch (IllegalAccessException | InvocationTargetException e) {
