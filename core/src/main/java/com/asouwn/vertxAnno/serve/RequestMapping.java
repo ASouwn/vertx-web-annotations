@@ -1,4 +1,4 @@
-package com.asouwn.vertxAnno.serveAnnotation;
+package com.asouwn.vertxAnno.serve;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

@@ -1,7 +1,8 @@
-package com.asouwn.vertxAnno.POJO;
+package com.asouwn.vertxAnno.vertical;
 
-import com.asouwn.vertxAnno.serveAnnotation.GetMapping;
-import com.asouwn.vertxAnno.serveAnnotation.PostMapping;
+import com.asouwn.vertxAnno.config.CorsHandlerFactory;
+import com.asouwn.vertxAnno.serve.GetMapping;
+import com.asouwn.vertxAnno.serve.PostMapping;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
 import io.vertx.core.http.HttpServer;
@@ -19,9 +20,11 @@ public class WebVertical extends AbstractVerticle {
     private final List<Class<?>> classes;
 
     private final Map<String, Object> instanceMap = new HashMap<>();
+    private int port = 8080;
 
-    public WebVertical(List<Class<?>> classes) {
+    public WebVertical(List<Class<?>> classes, int port) {
         this.classes = classes;
+        this.port = port;
     }
 
     @Override
@@ -33,10 +36,10 @@ public class WebVertical extends AbstractVerticle {
         for (Class<?> c : classes) {
             createSingleServe(c, router);
         }
-        server.requestHandler(router).listen(8080, asyncResult ->
+        server.requestHandler(router).listen(port, asyncResult ->
         {
             if (asyncResult.succeeded()) {
-                System.out.println("start serve on port " + 8080);
+                System.out.println("start serve on port " + port + " on thread "+ Thread.currentThread().getName());
             } else {
                 System.out.println("start serve error, something got wrong");
             }

@@ -1,8 +1,8 @@
 package example.controller;
 
-import com.asouwn.vertxAnno.serveAnnotation.GetMapping;
-import com.asouwn.vertxAnno.serveAnnotation.PostMapping;
-import com.asouwn.vertxAnno.serveAnnotation.RestController;
+import com.asouwn.vertxAnno.serve.GetMapping;
+import com.asouwn.vertxAnno.serve.PostMapping;
+import com.asouwn.vertxAnno.serve.RestController;
 import example.param.HelloRequest;
 import example.param.HelloResponse;
 

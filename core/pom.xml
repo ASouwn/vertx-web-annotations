@@ -7,6 +7,7 @@
     <groupId>com.asouwn</groupId>
     <artifactId>vertx-web-annotation-core</artifactId>
     <version>0.0.1</version>
+    <packaging>pom</packaging>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>

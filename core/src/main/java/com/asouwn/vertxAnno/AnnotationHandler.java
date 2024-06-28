@@ -1,7 +1,9 @@
 package com.asouwn.vertxAnno;
 
-import com.asouwn.vertxAnno.POJO.WebVertical;
-import com.asouwn.vertxAnno.serveAnnotation.RestController;
+import com.asouwn.vertxAnno.serve.Port;
+import com.asouwn.vertxAnno.vertical.VerticalNum;
+import com.asouwn.vertxAnno.vertical.WebVertical;
+import com.asouwn.vertxAnno.serve.RestController;
 import io.vertx.core.Vertx;
 
 import java.io.File;
@@ -18,20 +20,32 @@ public class AnnotationHandler {
     /**
      * serve start port
      */
-    private static final int port = 8080;
+    private static int port = 8080;
+    private static int verticalNum = 4;
 
     /**
      * the start state
      *
      * @param c the application.class
-     * @param s the param should do, but there do nothing even have action
      * @throws IOException
      */
-    public static void run(Class<?> c, String[] s) throws IOException, ClassNotFoundException {
+    public static void run(Class<?> c) throws IOException, ClassNotFoundException {
+//        test if the application starter class
         if (!c.isAnnotationPresent(Application.class)) {
             throw new RuntimeException("there's no annotation @Application on main Class");
         }
         serveScanDir = c.getAnnotation(ServeScan.class).value();
+//        test if there an annotation about vertical config
+        if (c.isAnnotationPresent(VerticalNum.class)){
+            verticalNum = c.getAnnotation(VerticalNum.class).value();
+        } else {
+            System.out.println("use the default num of vertical, you can change by use @VerticalNum(<num>) on application class");
+        }
+        if (c.isAnnotationPresent(Port.class)){
+            port = c.getAnnotation(Port.class).value();
+        } else {
+            System.out.println("use the default port 8080, you can change by use @Port(<num>) on application class");
+        }
         serveStart(serveScanDir);
     }
 
@@ -87,7 +101,7 @@ public class AnnotationHandler {
 
     private static void createHttpServe(List<Class<?>> classes) {
         Vertx vertx = Vertx.vertx();
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < verticalNum; i++) {
             vertx.deployVerticle(webVertical(classes));
         }
     }
@@ -99,7 +113,7 @@ public class AnnotationHandler {
      */
 
     private static WebVertical webVertical(List<Class<?>> c){
-        return new WebVertical(c);
+        return new WebVertical(c, port);
     }
 
 }
