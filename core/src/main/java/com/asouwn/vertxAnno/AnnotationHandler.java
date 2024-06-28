@@ -101,8 +101,9 @@ public class AnnotationHandler {
 
     private static void createHttpServe(List<Class<?>> classes) {
         Vertx vertx = Vertx.vertx();
+        WebVertical vertical = webVertical(classes);
         for (int i = 0; i < verticalNum; i++) {
-            vertx.deployVerticle(webVertical(classes));
+            vertx.deployVerticle(vertical);
         }
     }
 
