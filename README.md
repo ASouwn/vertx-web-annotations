@@ -25,4 +25,8 @@ public class HelloController {
         return "hello world";
     }
 ~~~
-
+# 持续开发需求
+- 反射运行有点重，学长建议我用methodHandles+labmdaFactory，我目前用的方法是在扫描类的时候就生成相关实例，执行方法时就不再生成实例了，直接在kvmap中获得实例运行
+- config类，预计用一个config类来管理配置问题，比如event loop, cors等等
+- 数据库管理，基于vertx的event loop，也许同时也实现了数据库的并发访问，如何更好的管理数据库
+- 项目结构在更新的同时也应该有较好的分类模式
