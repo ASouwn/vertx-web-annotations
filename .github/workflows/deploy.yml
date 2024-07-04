@@ -1,0 +1,29 @@
+name: Deploy vertx-web-annotations-core to Archiva
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: try deploy the dependence to asouwn's archiva server
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+
+      - name: Build and Deploy module1
+        working-directory: ./core
+        env:
+          ARCHIVA_USERNAME: ${{ secrets.ARCHIVA_USERNAME }}
+          ARCHIVA_PASSWORD: ${{ secrets.ARCHIVA_PASSWORD }}
+        run: |
+          mvn clean install
+          mvn deploy -DskipTests --settings ../../.github/workflows/settings.xml

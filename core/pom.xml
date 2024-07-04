@@ -5,15 +5,28 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.asouwn</groupId>
-    <artifactId>vertx-web-annotation-core</artifactId>
-    <version>0.0.1</version>
-    <packaging>pom</packaging>
+    <artifactId>vertx-web-annotations-core</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
+    <distributionManagement>
+        <repository>
+            <id>archiva.internal</id>
+            <name>Internal Release Repository</name>
+            <url>http://asouwn.xyz:55233/repository/internal/</url>
+        </repository>
+        <snapshotRepository>
+            <id>archiva.snapshots</id>
+            <name>Internal Snapshot Repository</name>
+            <url>http://asouwn.xyz:55233/repository/snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
 
     <dependencies>
         <dependency>
