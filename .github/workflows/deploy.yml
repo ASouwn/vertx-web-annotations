@@ -3,7 +3,7 @@ name: Deploy vertx-web-annotations-core to Archiva
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   deploy:
