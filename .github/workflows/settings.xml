@@ -2,12 +2,12 @@
     <!-- omitted xml -->
     <servers>
         <server>
-            <id>archiva.internal</id>
+            <id>internal</id>
             <username>${env.ARCHIVA_USERNAME}</username>
             <password>${env.ARCHIVA_PASSWORD}</password>
         </server>
         <server>
-            <id>archiva.snapshots</id>
+            <id>snapshots</id>
             <username>${env.ARCHIVA_USERNAME}</username>
             <password>${env.ARCHIVA_PASSWORD}</password>
         </server>
